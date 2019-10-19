@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
 	$email = htmlspecialchars($email, ENT_QUOTES);
 	$subject = htmlspecialchars($subject, ENT_QUOTES);
 	$body = htmlspecialchars($body, ENT_QUOTES);
-	 
+
 	if ($name === "") {
 		$errors['name'] = "お名前が入力されていません。";
 	}
@@ -28,6 +28,23 @@ if (isset($_POST['submit'])) {
 	if ($body === "") {
 		$errors['body'] = "お問い合わせ内容が入力されていません。";
 	}
+
+	if (count($errors) === 0) {
+		$_SESSION['name'] = $name;
+		$_SESSION['email'] = $email;
+		$_SESSION['subject'] = $subject;
+		$_SESSION['body'] = $body;
+
+		header('Location: http://localhost/php_form/form2.php');
+		exit();
+	}
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'edit') {
+	$name = $_SESSION['name'];
+	$email = $_SESSION['email'];
+	$subject = $_SESSION['subject'];
+	$body = $_SESSION['body'];
 }
 
 echo "<pre>";
