@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 echo "<pre>";
 var_dump($_POST);
 echo "</pre>";
@@ -12,6 +14,11 @@ if (isset($_POST['submit'])) {
 	$subject = $_POST['subject'];
 	$body = $_POST['body'];
 
+	$name = htmlspecialchars($name, ENT_QUOTES);
+	$email = htmlspecialchars($email, ENT_QUOTES);
+	$subject = htmlspecialchars($subject, ENT_QUOTES);
+	$body = htmlspecialchars($body, ENT_QUOTES);
+	 
 	if ($name === "") {
 		$errors['name'] = "お名前が入力されていません。";
 	}
@@ -35,7 +42,7 @@ echo "</pre>";
 <title>お問い合わせ</title>
 </head>
 <body>
-<img src="../img/latte.png" alt="latte">
+<img src="/img/latte.png" alt="latte">
 <?php
 echo "<ul>";
 foreach ($errors as $value) {
@@ -48,10 +55,10 @@ echo "</ul>";
 <form action="form1.php" method="POST">
 <table>
 <tr>
-<th>お名前</th><td><input type="text" name="name"></td>
+<th>お名前</th><td><input type="text" name="name" value="<?php if (isset($name)) { echo $name; } ?>"></td>
 </tr>
 <tr>
-<th>メールアドレス</th><td><input type="text" name="email"></td>
+<th>メールアドレス</th><td><input type="text" name="email" value="<?php if (isset($email)) { echo $email; } ?>"></td>
 </tr>
 <tr>
 <th>お問い合わせの種類</th><td>
@@ -61,7 +68,7 @@ echo "</ul>";
 </select></td>
 </tr>
 <th>お問い合わせ内容</th>
-<td><textarea name="body" cols="40" rows="10"></textarea></td>
+<td><textarea name="body" cols="40" rows="10"><?php if (isset($body)) { echo $body; } ?></textarea></td>
 </tr>
 <tr>
 <td colspan="2"><input type="submit" name="submit" value="確認画面へ"></td>
